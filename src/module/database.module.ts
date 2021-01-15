@@ -1,6 +1,7 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ConfigModule, ConfigService } from '@nestjs/config';
+import { UserEntity } from '../model/user.entity';
 
 @Module({
   imports: [
@@ -19,8 +20,8 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
           password: dbConfig.password,
           database: dbConfig.database_name,
           synchronize: syncDB,
-          logging: false,
-          entities: [__dirname + '../model/*.entity{.ts,.js}']
+          logging: syncDB,
+          entities: [UserEntity]
         }
         return option
       }

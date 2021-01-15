@@ -3,6 +3,8 @@ import { ConfigService } from '@nestjs/config';
 import { UsersService } from './user.service';
 import * as jwt from 'jsonwebtoken';
 import { ERROR_RESPONSE } from '../constant/ErrorResponse';
+import { UserRegisterDto } from 'src/dto/auth/auth.dto';
+import * as bcrypt from 'bcryptjs';
 @Injectable()
 export class AuthService {
 	constructor(
@@ -11,11 +13,12 @@ export class AuthService {
 	) { }
 
 	async validateUser(username: string, pass: string): Promise<any> {
-		const user = await this.usersService.findOne(username);
+		const user = await this.usersService.findOneWithPassword(username);
 		if (!user) {
 			throw new HttpException(ERROR_RESPONSE.NOT_FOUND_USER, HttpStatus.BAD_REQUEST);
 		}
-		if (user && user.password === pass) {
+		const isPasswordMatch = await bcrypt.compare(pass, user.password);
+		if (isPasswordMatch) {
 			const { password, ...result } = user;
 			return result;
 		} else {
@@ -49,6 +52,10 @@ export class AuthService {
 	}
 	async getUsers() {
 		const res = await this.usersService.getAllUsers()
+		return res
+	}
+	async registerUser(userDto:UserRegisterDto){
+		const res = await this.usersService.registerUser(userDto)
 		return res
 	}
 }

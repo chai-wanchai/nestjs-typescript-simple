@@ -1,10 +1,4 @@
-import {
-  Entity,
-  PrimaryGeneratedColumn,
-  Column,
-  CreateDateColumn,
-  BeforeInsert
-} from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, BeforeInsert } from 'typeorm';
 import * as bcrypt from 'bcryptjs';
 
 @Entity('user')
@@ -21,7 +15,7 @@ export class UserEntity {
   })
   username: string;
 
-  @Column('text')
+  @Column('text', { select: false })
   password: string;
 
   @BeforeInsert()

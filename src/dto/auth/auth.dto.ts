@@ -5,6 +5,12 @@ export class UserLoginDto {
 	@ApiProperty()
 	password: string;
 }
+export class UserRegisterDto {
+	@ApiProperty()
+	username: string;
+	@ApiProperty()
+	password: string;
+}
 export class TokenPayloadDto {
 	@ApiProperty()
 	username: string

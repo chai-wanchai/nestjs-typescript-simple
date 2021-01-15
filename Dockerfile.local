@@ -15,6 +15,6 @@ ENV JWT_SECRET=HTHDGSFATRHDFG
 ENV NODE_ENV=development
 
 COPY . /app
-
+RUN ls -l
 RUN npm install
 CMD ["npm","run","start:dev"]

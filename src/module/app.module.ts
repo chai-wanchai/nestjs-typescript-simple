@@ -4,6 +4,7 @@ import { ConfigModule } from '@nestjs/config';
 import configuration from '../../config/configuration';
 import { AuthModule } from './auth.module';
 import { DatabaseModule } from './database.module';
+import { Connection } from 'typeorm';
 const ENV = process.env.NODE_ENV || 'development';
 @Module({
   imports: [
@@ -15,6 +16,9 @@ const ENV = process.env.NODE_ENV || 'development';
     AuthModule,
     DatabaseModule
   ],
-  providers: []
+  providers: [],
+  exports: []
 })
-export class AppModule { }
+export class AppModule {
+  constructor(private connection: Connection) {}
+ }
