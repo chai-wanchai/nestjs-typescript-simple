@@ -1,5 +1,6 @@
 export default () => ({
   env: process.env.NODE_ENV || 'development',
+  isProduction: (process.env.NODE_ENV || 'development') === 'production' ? true : false,
   port: parseInt(process.env.PORT, 10) || 3000,
   database: {
     host: process.env.DATABASE_HOST || process.env.DB_URL,

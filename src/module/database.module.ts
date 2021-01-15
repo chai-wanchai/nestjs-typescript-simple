@@ -1,5 +1,5 @@
 import { Module } from '@nestjs/common';
-import { TypeOrmModule } from '@nestjs/typeorm';
+import { TypeOrmModule, TypeOrmModuleOptions } from '@nestjs/typeorm';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { UserEntity } from '../model/user.entity';
 
@@ -10,8 +10,8 @@ import { UserEntity } from '../model/user.entity';
       inject: [ConfigService],
       useFactory: (configService: ConfigService) => {
         const dbConfig = configService.get('database')
-        const syncDB = configService.get('env') === 'development' ? true : false
-        const option = {
+        const syncDB = !configService.get('isProduction')
+        const option: TypeOrmModuleOptions = {
           name: 'default',
           type: dbConfig.type,
           host: dbConfig.host,
@@ -26,8 +26,6 @@ import { UserEntity } from '../model/user.entity';
         return option
       }
     }),
-  ],
-  controllers: [],
-  providers: []
+  ]
 })
 export class DatabaseModule { }
