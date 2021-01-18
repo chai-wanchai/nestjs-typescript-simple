@@ -4,10 +4,12 @@ import { JWTAuthGuard } from '../shared/auth.guard';
 import { TokenPayloadDto, UserLoginDto, UserRegisterDto } from '../dto/auth/auth.dto';
 import { AuthService } from '../service/auth.service';
 import { TokenPayload } from '../decorator/user.decorator';
+import { SMTPService } from 'src/service/mail.service';
+import { SendMailDto } from 'src/dto/mail/mail.dto';
 @ApiTags('Authentication')
 @Controller('api/auth')
 export class AuthController {
-	constructor(private readonly authService: AuthService) { }
+	constructor(private readonly authService: AuthService, private readonly smtpService: SMTPService) { }
 	@Post('/login')
 	@HttpCode(HttpStatus.OK)
 	async login(@Body() body: UserLoginDto) {
@@ -38,8 +40,17 @@ export class AuthController {
 		}
 	}
 	@Get('/users')
-	async getUser(){
+	async getUser() {
 		const users = await this.authService.getUsers()
 		return users
+	}
+	@Post('/mail')
+	async sendEmail(@Body() body: SendMailDto) {
+		const email = await this.smtpService.send({
+			to: body.to,
+			subject: body.title || 'App Test',
+			html: body.message || "<b>Hello world?</b>"
+		})
+		return email
 	}
 }

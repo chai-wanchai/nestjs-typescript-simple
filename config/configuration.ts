@@ -10,5 +10,11 @@ export default () => ({
     type: process.env.DB_TYPE || 'postgres',
     uri: process.env.DB_URI,
     database_name: process.env.DB_NAME
+  },
+  smtp:{
+    host: process.env.SMTP_HOST,
+    port: parseInt(process.env.SMTP_PORT,10) || 587,
+    username: process.env.SMTP_USERNAME,
+    password: process.env.SMTP_PASSWORD
   }
 });
