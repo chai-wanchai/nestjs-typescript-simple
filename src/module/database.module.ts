@@ -1,7 +1,7 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule, TypeOrmModuleOptions } from '@nestjs/typeorm';
 import { ConfigModule, ConfigService } from '@nestjs/config';
-import { UserEntity } from '../model/user.entity';
+import { entities } from 'src/constant/entities';
 
 @Module({
   imports: [
@@ -21,7 +21,7 @@ import { UserEntity } from '../model/user.entity';
           database: dbConfig.database_name,
           synchronize: syncDB,
           logging: syncDB,
-          entities: [UserEntity]
+          entities: entities
         }
         return option
       }

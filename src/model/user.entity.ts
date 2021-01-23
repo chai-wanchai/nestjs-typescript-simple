@@ -10,7 +10,6 @@ export class UserEntity {
   created: Date;
 
   @Column({
-    type: 'text',
     unique: true,
   })
   username: string;

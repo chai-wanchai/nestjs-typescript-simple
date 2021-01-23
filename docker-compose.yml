@@ -3,8 +3,9 @@ version: '3'
 services:
   postgres-database:
     image: postgres:10.15-alpine
+    container_name:  postgres-database-local
     volumes:
-      - /Docker/database:/var/lib/postgresql/data 
+      - /Docker/database/postgres:/var/lib/postgresql/data
     ports:
       - 5432:5432
     restart: always
@@ -13,7 +14,20 @@ services:
       POSTGRES_DB: nest
       POSTGRES_USER: admin
       POSTGRES_PASSWORD: P@ssw0rd
+  mysql:
+    image: "mysql:5.7.24"
+    container_name: "typeorm-mysql"
+    ports:
+      - "3306:3306"
+    volumes:
+      - /Docker/database/mysql:/var/lib/mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: P@ssw0rd
+      MYSQL_USER: admin
+      MYSQL_PASSWORD: P@ssw0rd
+      MYSQL_DATABASE: nest
   api-nest:
+    container_name: api-nest
     build:  
       context: .
       dockerfile: Dockerfile.local
